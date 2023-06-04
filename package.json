@@ -1,10 +1,37 @@
 {
   "name": "linux-wechat",
   "main": "./src/index.js",
+  "description": "(非官方)一个简单的linux微信客户端",
+  "author": {
+    "email": "x.qf@foxmail.com",
+    "name": "hyperion"
+  },
+  "version": "0.9.0",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "build": {
+    "appId": "com.hyperion.linuxWechat",
+    "productName": "微信",
+    "extraResources": [
+      {
+        "from": "./resources",
+        "to": "resources"
+      }
+    ],
+    "linux": {
+      "target": "deb"
+    }
+  },
+  "electronDownload": {
+    "mirror": "https://npm.taobao.org/mirrors/electron/"
   },
   "dependencies": {
-    "electron": "^25.0.1"
+    "crypto-js": "^4.1.1"
+  },
+  "devDependencies": {
+    "electron": "^25.0.1",
+    "electron-builder": "^23.6.0"
   }
 }

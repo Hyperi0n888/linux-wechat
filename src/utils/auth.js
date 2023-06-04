@@ -1,16 +1,29 @@
-const { writeFile, readFile } = require('fs/promises')
+const { writeFile, readFile, access } = require('fs/promises')
+const { encrypt, decrypt } = require('./AES')
+
 
 const COOKIES_FILE = "cookies.json"
 
 
-function getCookies() {
-    return readFile(COOKIES_FILE, {
-        encoding: 'utf8'
-    }).then(content=>JSON.parse(content))
+async function getCookies() {
+    const cookies = []
+    try {
+        await access(COOKIES_FILE)
+        const content = await readFile(COOKIES_FILE, {
+            encoding: 'utf8'
+        })
+        const plainText = decrypt(content)
+        cookies = JSON.parse(plainText)
+    }
+    catch(e) {
+        return []
+    }
+    return cookies
 }
 
 function setCookies(cookies) {
-    return writeFile(COOKIES_FILE, cookies, {
+    const cipherText = encrypt(cookies)
+    return writeFile(COOKIES_FILE, cipherText, {
         encoding: 'utf-8'
     })
 }
