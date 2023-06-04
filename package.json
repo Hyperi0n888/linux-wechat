@@ -1,0 +1,10 @@
+{
+  "name": "linux-wechat",
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "electron": "^25.0.1"
+  }
+}
