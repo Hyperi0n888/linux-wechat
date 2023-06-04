@@ -9,77 +9,49 @@ jobs:
   build-and-release:
 
     runs-on: ubuntu-latest
-    
     steps:
-      
     #Checkout the repo
-     
       - name: Checkout Repo
-      
         uses: actions/checkout@v2
 
     # Set up Node.js
-      
       - name: Setup Node
-
         uses: actions/setup-node@v2-beta
-
         with:
-
-          node-version: '10.x'
+          node-version: '16.x'
 
     # Install dependencies
       
       - name: Install Dependencies
-
         run: npm install
 
     # Run the build script
       
       - name: Run Build Script
-
         run: npm run build
 
     # Create a new release on Github 
       
       - name: Create Release 
-      
         id: create_release
-        
         uses: actions/create-release@v1
-        
         env:
-        
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
         with:
-        
           tag_name: v${{ github.run_number }}
-          
           release_name: Release v$ {{ github.run_number }}
-          
           draft: false
-          
           prerelease: true
       
     # Upload the release asset
       
       - name: Upload Release Asset 
-      
         id: upload_release_asset
-        
         uses: actions/upload-release-asset@v1
-        
         env:
-        
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
         with:
-        
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          
           asset_path: ./dist/*
-          
           asset_name: linux-wechat.zip
-          
           asset_content_type: application/zip
