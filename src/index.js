@@ -62,7 +62,10 @@ function handleQuit () {
 
 app.whenReady()
     .then(() => {
+        if(!app.requestSingleInstanceLock()) {
+            app.quit()
+            throw Error("程序已启动")
+        }    
         createWin()
         createTray()
     })
-
